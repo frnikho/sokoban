@@ -9,6 +9,33 @@
 #include "my.h"
 #include "map.h"
 
+int get_walls_near_box(maps_t *map, box_t *box)
+{
+    int x = box->pos.x;
+    int y = box->pos.y;
+    int walls = 0;
+    for (int i = 0; map->walls[i] != 0; i++) {
+        if (x==map->walls[i]->pos.x+1&&y==map->walls[i]->pos.y==y)
+            walls++;
+        if (x==map->walls[i]->pos.x-1&&y==map->walls[i]->pos.y==y)
+            walls++;
+        if (x==map->walls[i]->pos.x&&y==map->walls[i]->pos.y+1==y)
+            walls++;
+        if (x==map->walls[i]->pos.x&&y==map->walls[i]->pos.y-1==y)
+            walls++;
+    }
+
+    return (walls);
+}
+
+int check_stuck_box(maps_t *map)
+{
+    for (int i = 0; map->boxs[i] != 0; i++) {
+        if (get_walls_near_box(map, map->boxs[i]))
+            exit(64);
+    }
+}
+
 static void move_player(maps_t *map, int x, int y)
 {
     x == 1 ? map->player->pos.x++ : 0;

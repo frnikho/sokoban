@@ -56,6 +56,7 @@ maps_t *create_map(maps_info_t *obj_info);
 void destroy_map(maps_t *map);
 void display_map(maps_t *map);
 int check_win(maps_t *map);
+int check_stuck_box(maps_t *map);
 
 wall_t *create_wall(int x, int y);
 box_t *create_box(int x, int y);
