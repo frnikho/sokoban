@@ -28,10 +28,13 @@ int main(int argc, char **argv)
         manage_player(map, current);
         refresh();
         if (current == ' ')
+            map = convert_map(map_str, info);
+        if (check_win(map))
             break;
     }
     free(map_str);
     destroy_map(map);
     endwin();
+    my_putstr("YOU WIN !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
     return 0;
 }

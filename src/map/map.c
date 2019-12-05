@@ -12,6 +12,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 
+int check_win(maps_t *map)
+{
+    for (int i = 0; map->boxs[i] != 0; i++) {
+        if (!map->boxs[i]->is_lock)
+            return (0);
+    }
+    return (1);
+}
+
 static void draw_character(maps_t *rt, char c, int *index, pos_t *pos)
 {
     if (c == WALL)

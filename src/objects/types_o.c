@@ -21,6 +21,7 @@ box_t *create_box(int x, int y)
     box_t *p = malloc(sizeof(box_t));
     p->pos.x = x;
     p->pos.y = y;
+    p->is_lock = 0;
     return (p);
 }
 

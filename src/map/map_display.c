@@ -31,15 +31,11 @@ static int move_box(maps_t *map, pos_t v, int index)
             return (1);
     }
     for (int i = 0; map->boxs_loc[i] != 0; i++) {
-        if (map->boxs_loc[i]->pos.x == x && map->boxs_loc[i]->pos.y == y) {
-
-        }
+        if (map->boxs_loc[i]->pos.x == x && map->boxs_loc[i]->pos.y == y)
+            map->boxs[index]->is_lock = 1;
     }
-
     map->boxs[index]->pos.x = x;
     map->boxs[index]->pos.y = y;
-
-
     return (0);
 }
 
@@ -47,6 +43,8 @@ int check_box_collision(maps_t *map, pos_t pos, pos_t v)
 {
     for (int i = 0; map->boxs[i] != 0; i++) {
         if (pos.x == map->boxs[i]->pos.x && pos.y == map->boxs[i]->pos.y) {
+            if (map->boxs[i]->is_lock)
+                return (1);
             return move_box(map, v, i);
         }
     }
