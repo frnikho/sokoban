@@ -70,8 +70,6 @@ int check_box_collision(maps_t *map, pos_t pos, pos_t v)
 {
     for (int i = 0; map->boxs[i] != 0; i++) {
         if (pos.x == map->boxs[i]->pos.x && pos.y == map->boxs[i]->pos.y) {
-            if (map->boxs[i]->is_lock)
-                return (1);
             return move_box(map, v, i);
         }
     }
@@ -100,6 +98,7 @@ int check_collision(int a_x, int a_y, maps_t *map)
 
 void manage_player(maps_t *map, int current)
 {
+
     if (current == KEY_LEFT && !check_collision(-1, 0, map))
         move_player(map, -1, 0);
     if (current == KEY_RIGHT && !check_collision(1, 0, map))
@@ -115,12 +114,19 @@ void display_map(maps_t *map)
     int *index = malloc(sizeof(map));
     pos_t *pos = malloc(sizeof(pos_t));
 
-    for (int i = 0; map->walls[i] != 0; i++)
+    for (int i = 0; map->walls[i] != 0; i++) {
+        attron(COLOR_PAIR(1));
         mvprintw(map->walls[i]->pos.y, map->walls[i]->pos.x, "#");
-    for (int i = 0; map->boxs_loc[i] != 0; i++)
+    }
+    for (int i = 0; map->boxs_loc[i] != 0; i++) {
+        attron(COLOR_PAIR(2));
         mvprintw(map->boxs_loc[i]->pos.y, map->boxs_loc[i]->pos.x, "O");
-    for (int i = 0; map->boxs[i] != 0; i++)
+    }
+    for (int i = 0; map->boxs[i] != 0; i++) {
+        attron(COLOR_PAIR(3));
         mvprintw(map->boxs[i]->pos.y, map->boxs[i]->pos.x, "X");
+    }
+    attron(COLOR_PAIR(4));
     mvprintw(map->player->pos.y, map->player->pos.x, "P");
     move(map->player->pos.y, map->player->pos.x);
 }

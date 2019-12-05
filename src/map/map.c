@@ -68,12 +68,12 @@ char *read_map(char *filepath)
     int fd = open(filepath, O_RDONLY);
     char *buffer;
 
-    if (fd > 1) {
+    if (fd == -1 || fd == 0) {
+        buffer = "";
+    } else if (fd > 1) {
         int size = get_file_stats(filepath).st_size;
         buffer = malloc(sizeof(char) * size);
         read(fd, buffer, size);
-    } else {
-        my_putstr("error with read map !");
     }
     return (buffer);
 }
