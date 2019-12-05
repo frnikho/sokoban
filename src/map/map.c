@@ -12,20 +12,14 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-static void check_character(maps_t *rt, char c, int *index, pos_t *pos)
+static void draw_character(maps_t *rt, char c, int *index, pos_t *pos)
 {
-    if (c == WALL) {
-        rt->walls[index[0]] = create_wall(pos->x, pos->y);
-        index[0]++;
-    }
-    if (c == BOX) {
-        rt->boxs[index[1]] = create_box(pos->x, pos->y);
-        index[1]++;
-    }
-    if (c == BOXLOCATION) {
-        rt->boxs_location[index[2]] = create_box_location(pos->x, pos->y);
-        index[2]++;
-    }
+    if (c == WALL)
+        rt->walls[index[0]++] = create_wall(pos->x, pos->y);
+    if (c == BOX)
+        rt->boxs[index[1]++] = create_box(pos->x, pos->y);
+    if (c == BOXLOCATION)
+        rt->boxs_loc[index[2]++] = create_box_location(pos->x, pos->y);
 }
 
 maps_t *convert_map(char *map, maps_info_t *info)
@@ -37,11 +31,11 @@ maps_t *convert_map(char *map, maps_info_t *info)
     pos->y++;
     int i = 0;
     for (; map[i] != 0; i++, pos->x++) {
-        check_character(rt_map, map[i], index, pos);
+        draw_character(rt_map, map[i], index, pos);
         if (map[i] == PLAYER) {
             player_t *pl = malloc(sizeof(player_t));
-            pl->position.x = pos->x;
-            pl->position.y = pos->y;
+            pl->pos.x = pos->x;
+            pl->pos.y = pos->y;
             rt_map->player = pl;
         }
         map[i] == BACKLINE ? pos->y++, pos->x=0 : 0;

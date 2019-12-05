@@ -3,7 +3,6 @@ NAME		=		my_sokoban
 MAIN		=		src/main.c
 
 SRC			=		src/map/map.c 	\
-					src/map/map_player.c		\
 					src/objects/map_o.c			\
 					src/objects/map_info_o.c	\
 					src/objects/types_o.c		\

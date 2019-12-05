@@ -13,6 +13,23 @@ typedef struct pos_s {
     int y;
 } pos_t;
 
+typedef struct player_s {
+    pos_t pos;
+} player_t;
+
+typedef struct wall_s {
+    pos_t pos;
+} wall_t;
+
+typedef struct box_s {
+    pos_t pos;
+    int is_lock;
+} box_t;
+
+typedef struct box_location_s {
+    pos_t pos;
+} box_location_t;
+
 typedef struct maps_info_s {
     int wall;
     int backline;
@@ -21,34 +38,17 @@ typedef struct maps_info_s {
     int box_location;
 } maps_info_t;
 
-typedef struct player_s {
-    pos_t position;
-} player_t;
-
-typedef struct wall_s {
-    pos_t position;
-} wall_t;
-
-typedef struct box_s {
-    pos_t position;
-    int is_lock;
-} box_t;
-
-typedef struct box_location_s {
-    pos_t position;
-} box_location_t;
-
 typedef struct maps_s {
     player_t *player;
     wall_t **walls;
     box_t **boxs;
-    box_location_t **boxs_location;
+    box_location_t **boxs_loc;
     int char_size;
 } maps_t;
 
 char *read_map(char *filepath);
 pos_t *find_player(char *map);
-void move_player(maps_t *map, int current);
+void manage_player(maps_t *map, int current);
 maps_t *convert_map(char *map, maps_info_t *info);
 maps_info_t *get_map_info(char *map);
 void display_info(maps_info_t *info);

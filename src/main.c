@@ -21,13 +21,13 @@ int main(int argc, char **argv)
     WINDOW *window = initscr();
     keypad(stdscr, TRUE);
     noecho();
-    while(1) {
+    while (1) {
         clear();
         display_map(map);
         int current = getch();
-        move_player(map, current);
+        manage_player(map, current);
         refresh();
-        if(current == ' ')
+        if (current == ' ')
             break;
     }
     free(map_str);
