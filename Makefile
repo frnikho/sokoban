@@ -5,6 +5,7 @@ MAIN		=		src/main.c
 SRC			=		src/map/map.c 	\
 					src/objects/map_o.c			\
 					src/objects/map_info_o.c	\
+					src/map/map_collision.c	\
 					src/objects/types_o.c		\
 					src/map/map_display.c
 

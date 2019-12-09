@@ -11,12 +11,6 @@
 #include <ncurses.h>
 #include <stdlib.h>
 
-void my_puterr(char *msg)
-{
-    int length = my_strlen(msg);
-    write(2, msg, length);
-}
-
 int show_help(char **argv)
 {
     if (argv[1][0] == '-' && argv[1][1] == 'h') {
@@ -39,7 +33,7 @@ int check_file_argv(char *map_str)
     return (0);
 }
 
-static void init()
+static void init(void)
 {
     WINDOW *window = initscr();
     keypad(stdscr, TRUE);
@@ -51,13 +45,8 @@ static void init()
     init_pair(4, COLOR_RED, COLOR_MAGENTA);
 }
 
-int main(int argc, char **argv)
+void game(char *map_str)
 {
-    if (argc == 2 && show_help(argv))
-        return (0);
-    char *map_str = read_map(argv[1]);
-    if (check_file_argv(map_str))
-        return (84);
     maps_info_t *info = get_map_info(map_str);
     maps_t *map = convert_map(map_str, info);
     init();
@@ -74,5 +63,15 @@ int main(int argc, char **argv)
     free(map_str);
     destroy_map(map);
     endwin();
+}
+
+int main(int argc, char **argv)
+{
+    if (argc == 2 && show_help(argv))
+        return (0);
+    char *map_str = read_map(argv[1]);
+    if (check_file_argv(map_str))
+        return (84);
+    game(map_str);
     return 0;
 }
