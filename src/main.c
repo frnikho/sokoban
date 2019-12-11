@@ -11,30 +11,17 @@
 #include <ncurses.h>
 #include <stdlib.h>
 
-int show_help(char **argv)
-{
-    if (argv[1][0] == '-' && argv[1][1] == 'h') {
-        my_putstr("USAGE\n./my_sokoban map\nDESCRIPTION\nmap file");
-        my_putstr(" representing the warehouse map, containing ‘#’");
-        my_putstr(" for walls,\n‘P’ for the player, ‘X’ for boxes and ");
-        my_putstr("‘O’ for storage locations.\n");
-        return (1);
-    } else {
-        return (0);
-    }
-}
+int check_file_argv(char *map_str);
+int handle_error(maps_info_t *info);
+int show_help(char **argv);
 
-int check_file_argv(char *map_str)
-{
-    if (my_strlen(map_str) <= 0) {
-        my_puterr("error while opening the current file: ");
-        return (1);
-    }
-    return (0);
-}
+static int win;
+maps_t *map;
+maps_info_t *info;
 
 static void init(void)
 {
+    win = 0;
     WINDOW *window = initscr();
     keypad(stdscr, TRUE);
     noecho();
@@ -47,8 +34,6 @@ static void init(void)
 
 void game(char *map_str)
 {
-    maps_info_t *info = get_map_info(map_str);
-    maps_t *map = convert_map(map_str, info);
     init();
     while (1) {
         clear();
@@ -57,12 +42,17 @@ void game(char *map_str)
         manage_player(map, current);
         refresh();
         map = current == ' ' ? convert_map(map_str, info) : map;
-        if (check_win(map) || current == 'e')
+        if (check_win(map)) {
+            win = 1;
+            break;
+        }
+        if (current == 'e')
             break;
     }
+    endwin();
     free(map_str);
     destroy_map(map);
-    endwin();
+    win ? game_win() : 0;
 }
 
 int main(int argc, char **argv)
@@ -71,6 +61,10 @@ int main(int argc, char **argv)
         return (0);
     char *map_str = read_map(argv[1]);
     if (check_file_argv(map_str))
+        return (84);
+    info = get_map_info(map_str);
+    map = convert_map(map_str, info);
+    if (handle_error(info))
         return (84);
     game(map_str);
     return 0;

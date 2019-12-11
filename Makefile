@@ -2,12 +2,14 @@ NAME		=		my_sokoban
 
 MAIN		=		src/main.c
 
-SRC			=		src/map/map.c 	\
+SRC			=		src/map/map.c 				\
+					src/map/map_win.c			\
 					src/objects/map_o.c			\
 					src/objects/map_info_o.c	\
-					src/map/map_collision.c	\
+					src/map/map_collision.c		\
 					src/objects/types_o.c		\
-					src/map/map_display.c
+					src/map/map_display.c		\
+					src/handle_error.c
 
 INCLUDE		=		-I include
 

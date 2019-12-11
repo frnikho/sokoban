@@ -12,16 +12,21 @@
 maps_info_t *get_map_info(char *map)
 {
     maps_info_t *info = malloc(sizeof(maps_info_t));
+    if (!info)
+        return (0);
     for (int i = 0; map[i] != 0; i++) {
         map[i] == WALL ? info->wall++ : 0;
         map[i] == BOX ? info->box++ : 0;
         map[i] == BOXLOCATION ? info->box_location++ : 0;
+        map[i] == PLAYER ? info->player++ : 0;
     }
     return (info);
 }
 
 void display_info(maps_info_t *info)
 {
+    if (!info)
+        return;
     my_putstr("Walls: ");
     my_put_nbr(info->wall);
     my_putstr("\nBox: ");

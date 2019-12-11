@@ -36,6 +36,7 @@ typedef struct maps_info_s {
     int space;
     int box;
     int box_location;
+    int player;
 } maps_info_t;
 
 typedef struct maps_s {
@@ -45,6 +46,9 @@ typedef struct maps_s {
     box_location_t **boxs_loc;
     int char_size;
 } maps_t;
+
+void game_win(void);
+void game(char *map_str);
 
 char *read_map(char *filepath);
 pos_t *find_player(char *map);

@@ -35,6 +35,8 @@ maps_t *convert_map(char *map, maps_info_t *info)
 {
     maps_t *rt_map = create_map(info);
     int *index = malloc(sizeof(info));
+    if (!index)
+        return (0);
     pos_t *pos = malloc(sizeof(pos_t));
     pos->x++;
     pos->y++;
