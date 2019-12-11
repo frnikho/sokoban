@@ -25,10 +25,17 @@ int get_count_walls(maps_t *map, box_t *box, int x, int y)
 int get_walls_near_box(maps_t *map, box_t *box)
 {
     int walls = 0;
-    walls += get_count_walls(map, box, 1, 0);
-    walls += get_count_walls(map, box, 0, 1);
     walls += get_count_walls(map, box, -1, 0);
     walls += get_count_walls(map, box, 0, -1);
+    walls = walls < 2 ? 0 : walls;
+    walls += get_count_walls(map, box, 0, -1);
+    walls += get_count_walls(map, box, 1, 0);
+    walls = walls < 2 ? 0 : walls;
+    walls += get_count_walls(map, box, -1, 0);
+    walls += get_count_walls(map, box, 0, 1);
+    walls = walls < 2 ? 0 : walls;
+    walls += get_count_walls(map, box, 0, 1);
+    walls += get_count_walls(map, box, 1, 0);
     return (walls);
 }
 

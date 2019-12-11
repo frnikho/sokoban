@@ -38,14 +38,13 @@ int game_loop(char *map_str)
     while (1) {
         clear();
         display_map(map);
-        int current = getch();
-        manage_player(map, current);
-        refresh();
-        map = current == ' ' ? convert_map(map_str, info) : map;
         if (check_win(map)) {
             win = 1;
             break;
         }
+        int current = getch();
+        manage_player(map, current);
+        map = current == ' ' ? convert_map(map_str, info) : map;
         if (current == 'e' || check_stuck_box(map))
             break;
     }
