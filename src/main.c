@@ -32,7 +32,7 @@ static void init(void)
     init_pair(4, COLOR_RED, COLOR_MAGENTA);
 }
 
-void game(char *map_str)
+int game_loop(char *map_str)
 {
     init();
     while (1) {
@@ -46,13 +46,13 @@ void game(char *map_str)
             win = 1;
             break;
         }
-        if (current == 'e')
+        if (current == 'e' || check_stuck_box(map))
             break;
     }
     endwin();
     free(map_str);
     destroy_map(map);
-    win ? game_win() : 0;
+    return (win);
 }
 
 int main(int argc, char **argv)
@@ -66,6 +66,7 @@ int main(int argc, char **argv)
     map = convert_map(map_str, info);
     if (handle_error(info))
         return (84);
-    game(map_str);
-    return 0;
+    if (game_loop(map_str))
+        return (0);
+    return 1;
 }

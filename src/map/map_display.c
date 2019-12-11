@@ -9,52 +9,47 @@
 #include "my.h"
 #include "map.h"
 
+int get_count_walls(maps_t *map, box_t *box, int x, int y)
+{
+    int walls = 0;
+    int wall_x = box->pos.x+x;
+    int wall_y = box->pos.y+y;
+    for (int i = 0; map->walls[i] != 0; i++) {
+        int w_x = map->walls[i]->pos.x;
+        int w_y = map->walls[i]->pos.y;
+        w_x == wall_x && w_y == wall_y ? walls++ : 0;
+    }
+    return (walls);
+}
+
 int get_walls_near_box(maps_t *map, box_t *box)
 {
-    int x = box->pos.x;
-    int y = box->pos.y;
     int walls = 0;
-    for (int i = 0; map->walls[i] != 0; i++) {
-        if (x==map->walls[i]->pos.x+1&&y==map->walls[i]->pos.y==y)
-            walls++;
-        if (x==map->walls[i]->pos.x-1&&y==map->walls[i]->pos.y==y)
-            walls++;
-        if (x==map->walls[i]->pos.x&&y==map->walls[i]->pos.y+1==y)
-            walls++;
-        if (x==map->walls[i]->pos.x&&y==map->walls[i]->pos.y-1==y)
-            walls++;
-    }
-
+    walls += get_count_walls(map, box, 1, 0);
+    walls += get_count_walls(map, box, 0, 1);
+    walls += get_count_walls(map, box, -1, 0);
+    walls += get_count_walls(map, box, 0, -1);
     return (walls);
 }
 
 int check_stuck_box(maps_t *map)
 {
     for (int i = 0; map->boxs[i] != 0; i++) {
-        if (get_walls_near_box(map, map->boxs[i]))
-            exit(64);
+        int walls = get_walls_near_box(map, map->boxs[i]);
+        if (walls >= 2)
+            continue;
+        else
+            return (0);
     }
+    return (1);
 }
 
-static void move_player(maps_t *map, int x, int y)
+void move_player(maps_t *map, int x, int y)
 {
     x == 1 ? map->player->pos.x++ : 0;
     x == -1 ? map->player->pos.x-- : 0;
     y == 1 ? map->player->pos.y++ : 0;
     y == -1 ? map->player->pos.y-- : 0;
-}
-
-void manage_player(maps_t *map, int current)
-{
-
-    if (current == KEY_LEFT && !check_collision(-1, 0, map))
-        move_player(map, -1, 0);
-    if (current == KEY_RIGHT && !check_collision(1, 0, map))
-        move_player(map, 1, 0);
-    if (current == KEY_UP && !check_collision(0, -1, map))
-        move_player(map, 0, -1);
-    if (current == KEY_DOWN && !check_collision(0, 1, map))
-        move_player(map, 0, 1);
 }
 
 void display_map(maps_t *map)

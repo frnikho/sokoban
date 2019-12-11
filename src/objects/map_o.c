@@ -5,6 +5,8 @@
 ** map struct function
 */
 
+#include "my.h"
+#include <ncurses.h>
 #include <stdlib.h>
 #include "map.h"
 
@@ -26,6 +28,18 @@ maps_t *create_map(maps_info_t *info)
     if (!map->boxs_loc)
         return (0);
     return (map);
+}
+
+void manage_player(maps_t *map, int current)
+{
+    if (current == KEY_LEFT && !check_collision(-1, 0, map))
+        move_player(map, -1, 0);
+    if (current == KEY_RIGHT && !check_collision(1, 0, map))
+        move_player(map, 1, 0);
+    if (current == KEY_UP && !check_collision(0, -1, map))
+        move_player(map, 0, -1);
+    if (current == KEY_DOWN && !check_collision(0, 1, map))
+        move_player(map, 0, 1);
 }
 
 void destroy_map(maps_t *map)
