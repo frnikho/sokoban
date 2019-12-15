@@ -61,17 +61,13 @@ void destroy_map(maps_t *map);
 void display_map(maps_t *map);
 int check_win(maps_t *map);
 int check_stuck_box(maps_t *map);
-
 wall_t *create_wall(int x, int y);
 box_t *create_box(int x, int y);
 box_location_t *create_box_location(int x, int y);
-
 int check_collision(int a_x, int a_y, maps_t *map);
 int move_box(maps_t *map, pos_t v, int index);
 int check_box_collision(maps_t *map, pos_t pos, pos_t v);
-
 void move_player(maps_t *map, int x, int y);
-
 void my_puterr(char *msg);
 
 static char const WALL = '#';
