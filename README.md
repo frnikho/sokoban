@@ -69,7 +69,7 @@ $ ./my_sokoban
 
 ## Crédits
 
-Ce RPG à été développer par les personnes suivantes:
+Ce jeu à été développer par les personnes suivantes:
 
 
 > [Nicolas SANS](https://github.com/frnikho) &nbsp;&middot;&nbsp;
